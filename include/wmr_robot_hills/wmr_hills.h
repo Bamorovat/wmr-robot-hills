@@ -27,8 +27,6 @@
 #ifndef WMR_HILLS
 #define WMR_HILLS
 
-
-
 #include <stdint.h>
 #include <iostream>
 #include <algorithm>
@@ -38,7 +36,6 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 
-
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
 #include <geometry_msgs/Twist.h>
@@ -46,16 +43,10 @@
 #include <nav_msgs/Odometry.h>
 #include <angles/angles.h>
 
-
-
 //#include "wmr-robot-hills/motor_cmd.h"
 #include "wmr-robot-hills/movement_data.h"
 #include "wmr-robot-hills/odometry_data.h"
 #include "wmr-robot-hills/pid_data.h"
-
-
-
-
 
 #define SENSOR_DATA_PORT   5002   //Robot to Pc
 #define PID_DATA_PORT       10121  //Robot to Pc
@@ -67,15 +58,12 @@
 #define ROBOT_IP "192.168.1.1"
 #define HOST_IP "192.168.1.20"
 
-
 #define IR_SENSOR_NUM  16;
 #define ULTRASONIC_SENSOR_NUM  16
 
-
+/*** define udp class ***/
 using boost::asio::ip::udp;
 using boost::asio::ip::address;
-/*** define udp class ***/
-
 
 typedef uint8_t Byte;
 
@@ -228,8 +216,6 @@ typedef struct __attribute__((packed))Motor_Cmd_Type{
 }Motor_Cmd_Type;
 //  #pragma pack(pop) //back to whatever the previous packing mode was
 
-
-
 union sensor_data_union
 {
     /***
@@ -239,13 +225,6 @@ union sensor_data_union
     Sensor_Data_Type Sensor_Data_buf_u;
     u_char byte_data[32];
 };
-
-
-
-
-
-
-
 
 
 class wmr_robot
@@ -271,7 +250,6 @@ private:
     void handle_move_data_receive(const boost::system::error_code& error, std::size_t /*bytes_transferred*/);
 
 
-
     /*** ROS functions ***/
     void send_cmd_vel(float linear_velocity, float angular_velocity);
 
@@ -286,11 +264,8 @@ private:
     void move_data_node();
     void sensor_node();
 
-
-
-
+    
     udp::endpoint robot_endpoint_;
-
 
     udp::socket socket_sensor_;
     udp::socket socket_pid_;
@@ -304,7 +279,6 @@ private:
     boost::array<char, 30> recv_odom_buffer_;
     boost::array<char, 24> recv_pid_buffer_;
     boost::array<char, 9>  recv_move_data_buffer_;*/
-
 
     ros::Subscriber sub_motor_cmd_;
     ros::Subscriber sub_cmd_vel_;
@@ -330,8 +304,6 @@ private:
 
     //tf2::Quaternion odom_quat_;
 
-
-
     Sensor_Data_Type Sensor_Data_buf_;
     PID_Data_Type PID_Data_buf_;
     Odometery_Data_Type Odometery_Data_buf_;
@@ -339,16 +311,6 @@ private:
 
     Movement_Cmd_Type Movement_cmd_buf_;
     Motor_Cmd_Type Motor_cmd_buf_;
-
-
 };
-
-
-
-
-
-
-
-
 
 #endif // WMR_HILLS
